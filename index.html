@@ -284,16 +284,16 @@
             text-align: left !important;
         }
 
-        /* 修改综合排名页面项目选择器 - PC端 */
+        
         #comprehensive-ranking .project-selector {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); /* 缩小最小宽度 */
-            gap: 12px; /* 稍微缩小间距 */
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
+            gap: 12px; 
             margin-bottom: 25px;
         }
 
         #comprehensive-ranking .project-btn {
-            padding: 10px 12px; /* 缩小内边距 */
+            padding: 10px 12px; 
             border: 2px solid #ddd;
             border-radius: 8px;
             background-color: white;
@@ -301,12 +301,12 @@
             cursor: pointer;
             transition: all 0.3s ease;
             text-align: center;
-            font-size: 0.9rem; /* 稍微缩小字体 */
-            min-height: 44px; /* 设置最小高度确保可点击性 */
+            font-size: 0.9rem; 
+            min-height: 44px; 
             display: flex;
             align-items: center;
             justify-content: center;
-            white-space: nowrap; /* 防止文字换行 */
+            white-space: nowrap; 
             overflow: hidden;
             text-overflow: ellipsis;
         }
@@ -394,7 +394,7 @@
             border-color: #4a6ee0;
         }
 
-        /* 移动端适配 - 项目排名页面 */
+        
         @media (max-width: 768px) {
             header h1 {
                 font-size: 2rem;
@@ -413,7 +413,7 @@
                 width: 100%;
             }
             
-            /* 项目排名页面按钮适配 */
+            
             #project-detail .btn {
                 padding: 10px 15px;
                 font-size: 0.9rem;
@@ -431,9 +431,9 @@
                 gap: 10px;
             }
             
-            /* 综合排名页面项目选择按钮适配 - 每3个按钮一排 */
+            
             #comprehensive-ranking .project-selector {
-                grid-template-columns: repeat(5, 1fr); /* 固定3列 */
+                grid-template-columns: repeat(5, 1fr); 
                 gap: 8px;
             }
             
@@ -441,7 +441,7 @@
                 padding: 8px 6px;
                 font-size: 0.85rem;
                 min-height: 40px;
-                white-space: normal; /* 允许文字换行 */
+                white-space: normal; 
                 line-height: 1.2;
                 overflow: visible;
                 text-overflow: clip;
@@ -451,19 +451,19 @@
                 flex-direction: column;
             }
             
-            /* 项目排名表格移动端适配 */
+            
             #project-table {
                 min-width: 450px !important;
             }
             
-            /* 调整列宽和字体大小，确保前四列可见 */
+            
             #project-table th,
             #project-table td {
                 font-size: 0.85rem;
                 padding: 10px 8px;
             }
             
-            /* 地区纪录表格移动端适配 - 与项目排名表格保持一致 */
+            
             #region-records-table {
                 min-width: 450px !important;
             }
@@ -474,7 +474,7 @@
                 padding: 10px 8px;
             }
             
-            /* 前四列固定宽度 */
+            
             #project-table th:nth-child(1),
             #project-table td:nth-child(1) {
                 width: 60px;
@@ -506,7 +506,7 @@
                 max-width: 80px;
             }
             
-            /* WCAID列适当缩小 */
+            
             #project-table th:nth-child(5),
             #project-table td:nth-child(5) {
                 width: 100px;
@@ -517,19 +517,19 @@
                 white-space: nowrap;
             }
             
-            /* 综合排名表格移动端适配 */
+            
             #ranking-table {
                 min-width: 500px !important;
             }
             
-            /* 调整列宽和字体大小 */
+            
             #ranking-table th,
             #ranking-table td {
                 font-size: 0.85rem;
                 padding: 10px 8px;
             }
             
-            /* 前四列固定宽度 */
+            
             #ranking-table th:nth-child(1),
             #ranking-table td:nth-child(1) {
                 width: 70px;
@@ -561,7 +561,7 @@
                 max-width: 80px;
             }
             
-            /* WCAID列适当缩小 */
+            
             #ranking-table th:nth-child(5),
             #ranking-table td:nth-child(5) {
                 width: 100px;
@@ -572,7 +572,7 @@
                 white-space: nowrap;
             }
             
-            /* 参与项目数列 */
+            
             #ranking-table th:nth-child(6),
             #ranking-table td:nth-child(6) {
                 width: 100px;
@@ -592,14 +592,14 @@
                 font-size: 0.9rem;
             }
             
-            /* 进一步缩小按钮 */
+            
             #project-detail .btn {
                 padding: 8px 12px;
                 font-size: 0.85rem;
             }
             
             #comprehensive-ranking .project-selector {
-                grid-template-columns: repeat(5, 1fr); /* 保持3列 */
+                grid-template-columns: repeat(5, 1fr); 
                 gap: 6px;
             }
             
@@ -607,11 +607,11 @@
                 padding: 6px 4px;
                 font-size: 0.8rem;
                 min-height: 36px;
-                font-size: 0.75rem; /* 进一步缩小字体 */
+                font-size: 0.75rem; 
                 line-height: 1.1;
             }
             
-            /* 进一步调整表格宽度 */
+            
             #project-table {
                 min-width: 400px !important;
             }
@@ -624,7 +624,7 @@
                 min-width: 450px !important;
             }
             
-            /* 更紧凑的表格内边距 */
+            
             #project-table td,
             #region-records-table td,
             #ranking-table td {
@@ -638,14 +638,14 @@
                 font-size: 0.8rem;
             }
             
-            /* 进一步缩小字体 */
+            
             #project-table td,
             #region-records-table td,
             #ranking-table td {
                 font-size: 0.8rem;
             }
             
-            /* 调整列宽 */
+            
             #project-table th:nth-child(1),
             #project-table td:nth-child(1) {
                 width: 50px;
@@ -717,10 +717,10 @@
             }
         }
         
-        /* 超小屏幕适配 */
+        
         @media (max-width: 360px) {
             #comprehensive-ranking .project-selector {
-                grid-template-columns: repeat(5, 1fr); /* 保持3列 */
+                grid-template-columns: repeat(5, 1fr); 
                 gap: 4px;
             }
             
@@ -742,7 +742,7 @@
                 min-width: 400px !important;
             }
             
-            /* 进一步压缩列宽 */
+            
             #project-table th:nth-child(2),
             #project-table td:nth-child(2),
             #ranking-table th:nth-child(2),
@@ -779,7 +779,7 @@
                 max-width: 90px;
             }
             
-            /* 进一步缩小字体 */
+            
             #region-records-table th,
             #region-records-table td {
                 font-size: 0.75rem;
@@ -787,10 +787,10 @@
             }
         }
         
-        /* 横屏优化 */
+        
         @media (max-width: 768px) and (orientation: landscape) {
             #comprehensive-ranking .project-selector {
-                grid-template-columns: repeat(5, 1fr); /* 保持3列 */
+                grid-template-columns: repeat(5, 1fr); 
                 gap: 10px;
             }
             
@@ -857,7 +857,7 @@
                 max-width: 140px;
             }
             
-            /* 地区纪录表格横屏适配 */
+            
             #region-records-table th,
             #region-records-table td {
                 font-size: 0.85rem;
