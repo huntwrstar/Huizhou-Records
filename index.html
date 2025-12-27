@@ -1,0 +1,2416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>惠州魔方成绩排名</title>
+    <link rel="icon" href="logo.png" type="image/png">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #3a7bd5, #00d2ff);
+            min-height: 100vh;
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 12px 25px;
+            margin: 5px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.15);
+            color: white;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.active {
+            background-color: #4a6ee0;
+            box-shadow: 0 4px 15px rgba(74, 110, 224, 0.4);
+        }
+
+        .page {
+            display: none;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            min-height: 500px;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eaeaea;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .page-title i {
+            color: #4a6ee0;
+        }
+
+        
+        .filter-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+            align-items: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 15px;
+        }
+
+        .select-wrapper {
+            flex-grow: 1;
+            min-width: 200px;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            background-color: white;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #4a6ee0;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background-color: #4a6ee0;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #3a5ecf;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 110, 224, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .current-info {
+            background-color: #e8f4ff;
+            border-radius: 15px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            border-left: 5px solid #4a6ee0;
+        }
+
+        .current-info h3 {
+            color: #2c3e50;
+            font-size: 1.2rem;
+        }
+
+        .current-info .badge {
+            background-color: #4a6ee0;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: #4a6ee0;
+            color: white;
+            padding: 15px 12px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:hover {
+            background-color: #f5f9ff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        tr:nth-child(even):hover {
+            background-color: #f0f5ff;
+        }
+
+        .rank-cell {
+            font-weight: bold;
+            color: #4a6ee0;
+            text-align: center;
+        }
+
+        .region-cell {
+            background-color: #f0f7ff;
+            font-weight: bold;
+            color: #2c3e50;
+            text-align: left;
+            padding-left: 20px;
+        }
+
+        .empty-cell {
+            color: #999;
+            font-style: italic;
+            text-align: center;
+        }
+
+        
+        #region-records-table th,
+        #region-records-table td {
+            text-align: center;
+        }
+        
+        
+        #region-records-table .region-cell td {
+            text-align: left !important;
+        }
+
+        /* 修改综合排名页面项目选择器 - PC端 */
+        #comprehensive-ranking .project-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); /* 缩小最小宽度 */
+            gap: 12px; /* 稍微缩小间距 */
+            margin-bottom: 25px;
+        }
+
+        #comprehensive-ranking .project-btn {
+            padding: 10px 12px; /* 缩小内边距 */
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background-color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 0.9rem; /* 稍微缩小字体 */
+            min-height: 44px; /* 设置最小高度确保可点击性 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap; /* 防止文字换行 */
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        #comprehensive-ranking .project-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            border-color: #4a6ee0;
+        }
+
+        #comprehensive-ranking .project-btn.selected {
+            background-color: #4a6ee0;
+            color: white;
+            border-color: #4a6ee0;
+            box-shadow: 0 3px 10px rgba(74, 110, 224, 0.3);
+        }
+        
+        .ranking-type {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .ranking-type .btn {
+            flex: 1;
+            min-width: 150px;
+            justify-content: center;
+        }
+
+        
+        .region-intro {
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .region-intro h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .region-intro p {
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .region-intro a {
+            color: #4a6ee0;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .region-intro a:hover {
+            text-decoration: underline;
+        }
+
+        .region-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .region-btn {
+            padding: 10px 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background-color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .region-btn:hover {
+            border-color: #4a6ee0;
+        }
+
+        .region-btn.selected {
+            background-color: #4a6ee0;
+            color: white;
+            border-color: #4a6ee0;
+        }
+
+        /* 移动端适配 - 项目排名页面 */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .page {
+                padding: 20px 15px;
+            }
+            
+            .filter-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .button-group {
+                width: 100%;
+            }
+            
+            /* 项目排名页面按钮适配 */
+            #project-detail .btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+                min-height: 44px;
+            }
+            
+            .btn {
+                flex: 1;
+                justify-content: center;
+            }
+            
+            .current-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            /* 综合排名页面项目选择按钮适配 - 每3个按钮一排 */
+            #comprehensive-ranking .project-selector {
+                grid-template-columns: repeat(3, 1fr); /* 固定3列 */
+                gap: 8px;
+            }
+            
+            #comprehensive-ranking .project-btn {
+                padding: 8px 6px;
+                font-size: 0.85rem;
+                min-height: 40px;
+                white-space: normal; /* 允许文字换行 */
+                line-height: 1.2;
+                overflow: visible;
+                text-overflow: clip;
+            }
+            
+            .region-selector {
+                flex-direction: column;
+            }
+            
+            /* 项目排名表格移动端适配 */
+            #project-table {
+                min-width: 450px !important;
+            }
+            
+            /* 调整列宽和字体大小，确保前四列可见 */
+            #project-table th,
+            #project-table td {
+                font-size: 0.85rem;
+                padding: 10px 8px;
+            }
+            
+            /* 地区纪录表格移动端适配 - 与项目排名表格保持一致 */
+            #region-records-table {
+                min-width: 450px !important;
+            }
+            
+            #region-records-table th,
+            #region-records-table td {
+                font-size: 0.85rem;
+                padding: 10px 8px;
+            }
+            
+            /* 前四列固定宽度 */
+            #project-table th:nth-child(1),
+            #project-table td:nth-child(1) {
+                width: 60px;
+                min-width: 60px;
+                max-width: 60px;
+            }
+            
+            #project-table th:nth-child(2),
+            #project-table td:nth-child(2) {
+                width: 80px;
+                min-width: 80px;
+                max-width: 80px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            
+            #project-table th:nth-child(3),
+            #project-table td:nth-child(3) {
+                width: 70px;
+                min-width: 70px;
+                max-width: 70px;
+            }
+            
+            #project-table th:nth-child(4),
+            #project-table td:nth-child(4) {
+                width: 80px;
+                min-width: 80px;
+                max-width: 80px;
+            }
+            
+            /* WCAID列适当缩小 */
+            #project-table th:nth-child(5),
+            #project-table td:nth-child(5) {
+                width: 100px;
+                min-width: 100px;
+                max-width: 120px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            
+            /* 综合排名表格移动端适配 */
+            #ranking-table {
+                min-width: 500px !important;
+            }
+            
+            /* 调整列宽和字体大小 */
+            #ranking-table th,
+            #ranking-table td {
+                font-size: 0.85rem;
+                padding: 10px 8px;
+            }
+            
+            /* 前四列固定宽度 */
+            #ranking-table th:nth-child(1),
+            #ranking-table td:nth-child(1) {
+                width: 70px;
+                min-width: 70px;
+                max-width: 70px;
+            }
+            
+            #ranking-table th:nth-child(2),
+            #ranking-table td:nth-child(2) {
+                width: 80px;
+                min-width: 80px;
+                max-width: 80px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            
+            #ranking-table th:nth-child(3),
+            #ranking-table td:nth-child(3) {
+                width: 70px;
+                min-width: 70px;
+                max-width: 70px;
+            }
+            
+            #ranking-table th:nth-child(4),
+            #ranking-table td:nth-child(4) {
+                width: 80px;
+                min-width: 80px;
+                max-width: 80px;
+            }
+            
+            /* WCAID列适当缩小 */
+            #ranking-table th:nth-child(5),
+            #ranking-table td:nth-child(5) {
+                width: 100px;
+                min-width: 100px;
+                max-width: 120px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            
+            /* 参与项目数列 */
+            #ranking-table th:nth-child(6),
+            #ranking-table td:nth-child(6) {
+                width: 100px;
+                min-width: 100px;
+                max-width: 120px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navigation {
+                flex-direction: column;
+            }
+            
+            .nav-btn {
+                justify-content: center;
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            /* 进一步缩小按钮 */
+            #project-detail .btn {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+            }
+            
+            #comprehensive-ranking .project-selector {
+                grid-template-columns: repeat(3, 1fr); /* 保持3列 */
+                gap: 6px;
+            }
+            
+            #comprehensive-ranking .project-btn {
+                padding: 6px 4px;
+                font-size: 0.8rem;
+                min-height: 36px;
+                font-size: 0.75rem; /* 进一步缩小字体 */
+                line-height: 1.1;
+            }
+            
+            /* 进一步调整表格宽度 */
+            #project-table {
+                min-width: 400px !important;
+            }
+            
+            #region-records-table {
+                min-width: 400px !important;
+            }
+            
+            #ranking-table {
+                min-width: 450px !important;
+            }
+            
+            /* 更紧凑的表格内边距 */
+            #project-table td,
+            #region-records-table td,
+            #ranking-table td {
+                padding: 8px 6px;
+            }
+            
+            #project-table th,
+            #region-records-table th,
+            #ranking-table th {
+                padding: 10px 6px;
+                font-size: 0.8rem;
+            }
+            
+            /* 进一步缩小字体 */
+            #project-table td,
+            #region-records-table td,
+            #ranking-table td {
+                font-size: 0.8rem;
+            }
+            
+            /* 调整列宽 */
+            #project-table th:nth-child(1),
+            #project-table td:nth-child(1) {
+                width: 50px;
+                min-width: 50px;
+                max-width: 50px;
+            }
+            
+            #project-table th:nth-child(2),
+            #project-table td:nth-child(2) {
+                width: 70px;
+                min-width: 70px;
+                max-width: 70px;
+            }
+            
+            #project-table th:nth-child(3),
+            #project-table td:nth-child(3) {
+                width: 60px;
+                min-width: 60px;
+                max-width: 60px;
+            }
+            
+            #project-table th:nth-child(4),
+            #project-table td:nth-child(4) {
+                width: 70px;
+                min-width: 70px;
+                max-width: 70px;
+            }
+            
+            #project-table th:nth-child(5),
+            #project-table td:nth-child(5) {
+                width: 90px;
+                min-width: 90px;
+                max-width: 100px;
+            }
+            
+            #ranking-table th:nth-child(1),
+            #ranking-table td:nth-child(1) {
+                width: 60px;
+                min-width: 60px;
+                max-width: 60px;
+            }
+            
+            #ranking-table th:nth-child(2),
+            #ranking-table td:nth-child(2) {
+                width: 70px;
+                min-width: 70px;
+                max-width: 70px;
+            }
+            
+            #ranking-table th:nth-child(3),
+            #ranking-table td:nth-child(3) {
+                width: 60px;
+                min-width: 60px;
+                max-width: 60px;
+            }
+            
+            #ranking-table th:nth-child(4),
+            #ranking-table td:nth-child(4) {
+                width: 70px;
+                min-width: 70px;
+                max-width: 70px;
+            }
+            
+            #ranking-table th:nth-child(5),
+            #ranking-table td:nth-child(5) {
+                width: 90px;
+                min-width: 90px;
+                max-width: 100px;
+            }
+        }
+        
+        /* 超小屏幕适配 */
+        @media (max-width: 360px) {
+            #comprehensive-ranking .project-selector {
+                grid-template-columns: repeat(3, 1fr); /* 保持3列 */
+                gap: 4px;
+            }
+            
+            #comprehensive-ranking .project-btn {
+                padding: 6px 2px;
+                font-size: 0.7rem;
+                min-height: 34px;
+            }
+            
+            #project-table {
+                min-width: 350px !important;
+            }
+            
+            #region-records-table {
+                min-width: 350px !important;
+            }
+            
+            #ranking-table {
+                min-width: 400px !important;
+            }
+            
+            /* 进一步压缩列宽 */
+            #project-table th:nth-child(2),
+            #project-table td:nth-child(2),
+            #ranking-table th:nth-child(2),
+            #ranking-table td:nth-child(2) {
+                width: 65px;
+                min-width: 65px;
+                max-width: 65px;
+            }
+            
+            #project-table th:nth-child(3),
+            #project-table td:nth-child(3),
+            #ranking-table th:nth-child(3),
+            #ranking-table td:nth-child(3) {
+                width: 55px;
+                min-width: 55px;
+                max-width: 55px;
+            }
+            
+            #project-table th:nth-child(4),
+            #project-table td:nth-child(4),
+            #ranking-table th:nth-child(4),
+            #ranking-table td:nth-child(4) {
+                width: 65px;
+                min-width: 65px;
+                max-width: 65px;
+            }
+            
+            #project-table th:nth-child(5),
+            #project-table td:nth-child(5),
+            #ranking-table th:nth-child(5),
+            #ranking-table td:nth-child(5) {
+                width: 80px;
+                min-width: 80px;
+                max-width: 90px;
+            }
+            
+            /* 进一步缩小字体 */
+            #region-records-table th,
+            #region-records-table td {
+                font-size: 0.75rem;
+                padding: 8px 4px;
+            }
+        }
+        
+        /* 横屏优化 */
+        @media (max-width: 768px) and (orientation: landscape) {
+            #comprehensive-ranking .project-selector {
+                grid-template-columns: repeat(3, 1fr); /* 保持3列 */
+                gap: 10px;
+            }
+            
+            #comprehensive-ranking .project-btn {
+                padding: 8px 6px;
+                font-size: 0.85rem;
+                min-height: 40px;
+            }
+            
+            #project-table {
+                min-width: 550px !important;
+            }
+            
+            #region-records-table {
+                min-width: 550px !important;
+            }
+            
+            #ranking-table {
+                min-width: 600px !important;
+            }
+            
+            #project-table th:nth-child(1),
+            #project-table td:nth-child(1),
+            #ranking-table th:nth-child(1),
+            #ranking-table td:nth-child(1) {
+                width: 70px;
+                min-width: 70px;
+                max-width: 70px;
+            }
+            
+            #project-table th:nth-child(2),
+            #project-table td:nth-child(2),
+            #ranking-table th:nth-child(2),
+            #ranking-table td:nth-child(2) {
+                width: 90px;
+                min-width: 90px;
+                max-width: 90px;
+            }
+            
+            #project-table th:nth-child(3),
+            #project-table td:nth-child(3),
+            #ranking-table th:nth-child(3),
+            #ranking-table td:nth-child(3) {
+                width: 80px;
+                min-width: 80px;
+                max-width: 80px;
+            }
+            
+            #project-table th:nth-child(4),
+            #project-table td:nth-child(4),
+            #ranking-table th:nth-child(4),
+            #ranking-table td:nth-child(4) {
+                width: 90px;
+                min-width: 90px;
+                max-width: 90px;
+            }
+            
+            #project-table th:nth-child(5),
+            #project-table td:nth-child(5),
+            #ranking-table th:nth-child(5),
+            #ranking-table td:nth-child(5) {
+                width: 120px;
+                min-width: 120px;
+                max-width: 140px;
+            }
+            
+            /* 地区纪录表格横屏适配 */
+            #region-records-table th,
+            #region-records-table td {
+                font-size: 0.85rem;
+                padding: 10px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>惠州魔方成绩排名</h1>
+            <p>本站列出了惠州选手在所有WCA项目的个人排名，所有的排名成绩源自WCA赛事的官方排名;<br>
+            如果你是惠州选手但未上榜或有其它问题请添加QQ群聊:110675125反馈。<br>
+            </p>
+        </header>
+        
+        <nav class="navigation">
+            <button class="nav-btn active" data-page="project-detail">
+                <i class="fas fa-list-alt"></i> 项目排名
+            </button>
+            <button class="nav-btn" data-page="comprehensive-ranking">
+                <i class="fas fa-trophy"></i> 综合排名
+            </button>
+            <button class="nav-btn" data-page="region-records">
+                <i class="fas fa-map-marker-alt"></i> 地区纪录
+            </button>
+        </nav>
+        
+        
+        <section id="project-detail" class="page active">
+            <h2 class="page-title">
+                <i class="fas fa-list-alt"></i> 项目
+            </h2>
+            
+            <div class="filter-section">
+                <div class="select-wrapper">
+                    <select id="project-select">
+                        <option value="333">三阶魔方 (3x3x3 Cube)</option>
+                        <option value="222">二阶魔方 (2x2x2 Cube)</option>
+                        <option value="444">四阶魔方 (4x4x4 Cube)</option>
+                        <option value="555">五阶魔方 (5x5x5 Cube)</option>
+                        <option value="666">六阶魔方 (6x6x6 Cube)</option>
+                        <option value="777">七阶魔方 (7x7x7 Cube)</option>
+                        <option value="333bf">三阶盲拧 (3x3x3 Blindfolded)</option>
+                        <option value="333fm">三阶最少步 (3x3x3 Fewest Moves)</option>
+                        <option value="333oh">三阶单手 (3x3x3 One-Handed)</option>
+                        <option value="clock">魔表 (Clock)</option>
+                        <option value="minx">五魔方 (Megaminx)</option>
+                        <option value="pyram">金字塔 (Pyraminx)</option>
+                        <option value="skewb">斜转 (Skewb)</option>
+                        <option value="sq1">SQ1 (Square-1)</option>
+                        <option value="444bf">四阶盲拧 (4x4x4 Blindfolded)</option>
+                        <option value="555bf">五阶盲拧 (5x5x5 Blindfolded)</option>
+                        <option value="333mbf">多盲 (3x3x3 Multi-Blind)</option>
+                    </select>
+                </div>
+                
+                <div class="button-group">
+                    <button id="single-btn" class="btn btn-primary">
+                        <i class="fas fa-stopwatch"></i> 单次成绩
+                    </button>
+                    <button id="average-btn" class="btn btn-secondary">
+                        <i class="fas fa-chart-line"></i> 平均成绩
+                    </button>
+                </div>
+            </div>
+            
+            <div class="current-info">
+                <div>
+                    <h3>当前浏览：<span id="current-project">三阶魔方</span> - <span id="current-type">单次成绩</span></h3>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table id="project-table">
+                    <thead>
+                        <tr>
+                            <th>排名</th>
+                            <th>姓名</th>
+                            <th>地区</th>
+                            <th>成绩</th>
+                            <th>WCAID</th>
+                        </tr>
+                    </thead>
+                    <tbody id="project-table-body">
+                        
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        
+        
+        <section id="comprehensive-ranking" class="page">
+            <h2 class="page-title">
+                <i class="fas fa-trophy"></i> 综合排名
+            </h2>
+            
+            <div class="ranking-type">
+                <button id="single-ranking-btn" class="btn btn-primary">
+                    <i class="fas fa-stopwatch"></i> 单次排名
+                </button>
+                <button id="average-ranking-btn" class="btn btn-secondary">
+                    <i class="fas fa-chart-line"></i> 平均排名
+                </button>
+            </div>
+            
+            <div class="current-info">
+                <div>
+                    <h3>当前排名类型：<span id="ranking-type-display">单次排名</span></h3>
+                </div>
+            </div>
+            
+            <h3 style="margin-bottom: 15px; color: #2c3e50;">选择参与综合排名的项目：</h3>
+            <div class="project-selector" id="project-selector">
+                
+            </div>
+            
+            <div class="table-container">
+                <table id="ranking-table">
+                    <thead>
+                        <tr>
+                            <th>综合排名</th>
+                            <th>姓名</th>
+                            <th>地区</th>
+                            <th>排名总和</th>
+                            <th>WCAID</th>
+                            <th>参与项目数</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ranking-table-body">
+                        
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        
+        
+        <section id="region-records" class="page">
+            <h2 class="page-title">
+                <i class="fas fa-map-marker-alt"></i> 地区纪录
+            </h2>
+            
+            <div class="region-intro">
+                <h3>惠州魔方纪录</h3>
+                <p>本页面列出了所有WCA项目的惠州魔方纪录，所有的成绩纪录源自<a href="https://www.worldcubeassociation.org/results/rankings" target="_blank">WCA赛事的官方排名</a>。</p>
+                <p>数据更新时间：<span id="last-update">2025-12-27</span></p>
+            </div>
+            
+            <div class="table-container">
+                <table id="region-records-table">
+                    <thead>
+                        <tr>
+                            <th width="10%">项目</th>
+                            <th width="10%">单次</th>
+                            <th width="10%">平均</th>
+                            <th width="10%">姓名</th>
+                            <th width="15%">比赛</th>
+                            <th width="10%">日期</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <tr class="region-cell">
+                            <td colspan="6">三阶</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>7.05</td>
+                            <td></td>
+                            <td>朱锐</td>
+                            <td>2024WCA惠州十周年魔方赛</td>
+                            <td>2024-07-28</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>8.78</td>
+                            <td>肖翔</td>
+                            <td>2025WCA桂林魔方公开赛</td>
+                            <td>2025-10-19</td>
+                        </tr>
+                        
+                        
+                        <tr class="region-cell">
+                            <td colspan="6">二阶</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>1.68</td>
+                            <td></td>
+                            <td>陈映光</td>
+                            <td>2016WCA亚洲魔方锦标赛</td>
+                            <td>2016-10-02</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>2.63</td>
+                            <td>陈映光</td>
+                            <td>2016WCA亚洲魔方锦标赛</td>
+                            <td>2016-10-02</td>
+                        </tr>
+                        
+                        
+                        <tr class="region-cell">
+                            <td colspan="6">四阶</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>23.89</td>
+                            <td></td>
+                            <td>肖翔</td>
+                            <td>2025WCA桂林魔方公开赛</td>
+                            <td>2025-10-19</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>30.99</td>
+                            <td>肖翔</td>
+                            <td>2025WCA广州高阶魔方赛</td>
+                            <td>2025-12-21</td>
+                        </tr>
+                        
+                        
+                        <tr class="region-cell">
+                            <td colspan="6">五阶</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>57.71</td>
+                            <td></td>
+                            <td>肖翔</td>
+                            <td>2025WCA广州高阶魔方赛</td>
+                            <td>2025-12-21</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>1:01.94</td>
+                            <td>肖翔</td>
+                            <td>2025WCA广州高阶魔方赛</td>
+                            <td>2025-12-21</td>
+                        </tr>
+                        
+                        
+                        <tr class="region-cell">
+                            <td colspan="6">六阶</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>1:39.88</td>
+                            <td></td>
+                            <td>肖翔</td>
+                            <td>2025WCA广州高阶魔方赛</td>
+                            <td>2025-12-21</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>1:46.10</td>
+                            <td>肖翔</td>
+                            <td>2025WCA广州高阶魔方赛</td>
+                            <td>2025-12-21</td>
+                        </tr>
+                        
+                        
+                        <tr class="region-cell">
+                            <td colspan="6">七阶</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>2:36.85</td>
+                            <td></td>
+                            <td>肖翔</td>
+                            <td>2025WCA广州高阶魔方赛</td>
+                            <td>2025-12-21</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>2:41.78</td>
+                            <td>肖翔</td>
+                            <td>2025WCA广州高阶魔方赛</td>
+                            <td>2025-12-21</td>
+                        </tr>
+                        
+                        
+                        <tr class="region-cell">
+                            <td colspan="6">三阶盲拧</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>17.67</td>
+                            <td></td>
+                            <td>严宇业</td>
+                            <td>2025WCA广州三阶安静赛</td>
+                            <td>2025-08-03</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>24.70</td>
+                            <td>严宇业</td>
+                            <td>2024WCA广州安静赛</td>
+                            <td>2024-08-17</td>
+                        </tr>
+                        
+                        
+                        <tr class="region-cell">
+                            <td colspan="6">最少步</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>37</td>
+                            <td></td>
+                            <td>梁卓文</td>
+                            <td>2018WCA亚洲最少步联赛</td>
+                            <td>2018-12-08</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>42.00</td>
+                            <td>梁卓文</td>
+                            <td>2018WCA亚洲最少步联赛</td>
+                            <td>2018-12-08</td>
+                        </tr>
+                        
+                        
+                        <tr class="region-cell">
+                            <td colspan="6">三阶单手</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>13.71</td>
+                            <td></td>
+                            <td>潘奕晟</td>
+                            <td>2018WCA重庆魔方公开赛</td>
+                            <td>2018-12-08</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>17.44</td>
+                            <td>朱锐</td>
+                            <td>2024WCA惠州十周年魔方赛</td>
+                            <td>2024-07-28</td>
+                        </tr>
+                        
+                        
+                        <tr class="region-cell">
+                            <td colspan="6">魔表</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>5.22</td>
+                            <td></td>
+                            <td>彭品桦</td>
+                            <td>2024WCA广州异形魔方赛</td>
+                            <td>2024-06-02</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>6.41</td>
+                            <td>彭品桦</td>
+                            <td>2024WCA广州异形魔方赛</td>
+                            <td>2024-06-02</td>
+                        </tr>
+                        
+                        
+                        <tr class="region-cell">
+                            <td colspan="6">五魔方</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>43.91</td>
+                            <td></td>
+                            <td>叶梓熠</td>
+                            <td>2025WCA广州异形魔方赛</td>
+                            <td>2025-11-09</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>45.76</td>
+                            <td>叶梓熠</td>
+                            <td>2025WCA广州异形魔方赛</td>
+                            <td>2025-11-09</td>
+                        </tr>
+                        
+                        
+                        <tr class="region-cell">
+                            <td colspan="6">金字塔</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>2.93</td>
+                            <td></td>
+                            <td>叶梓熠</td>
+                            <td>2024WCA广州异形魔方赛</td>
+                            <td>2024-06-02</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>3.93</td>
+                            <td>叶梓熠</td>
+                            <td>2025WCA广州异形魔方赛</td>
+                            <td>2025-11-09</td>
+                        </tr>
+                        
+                        
+                        <tr class="region-cell">
+                            <td colspan="6">斜转</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>2.81</td>
+                            <td></td>
+                            <td>谭熙</td>
+                            <td>2025WCA珠海魔方公开赛</td>
+                            <td>2025-06-15</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>2.81</td>
+                            <td></td>
+                            <td>谭熙</td>
+                            <td>2024WCA深圳南山魔方公开赛</td>
+                            <td>2024-06-22</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>4.02</td>
+                            <td>谭熙</td>
+                            <td>2025WCA广州异形魔方赛</td>
+                            <td>2025-11-09</td>
+                        </tr>
+                        
+                        
+                        <tr class="region-cell">
+                            <td colspan="6">SQ1</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>13.48</td>
+                            <td></td>
+                            <td>朱锐</td>
+                            <td>2024WCA广州异形魔方赛</td>
+                            <td>2024-06-02</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>17.19</td>
+                            <td>朱锐</td>
+                            <td>2024WCA广州异形魔方赛</td>
+                            <td>2024-06-02</td>
+                        </tr>
+                        
+                        
+                        <tr class="region-cell">
+                            <td colspan="6">四阶盲拧</td>
+                        </tr>
+                        <tr>
+                            <td class="empty-cell" colspan="6">暂无纪录</td>
+                        </tr>
+                        
+                        
+                        <tr class="region-cell">
+                            <td colspan="6">五阶盲拧</td>
+                        </tr>
+                        <tr>
+                            <td class="empty-cell" colspan="6">暂无纪录</td>
+                        </tr>
+                        
+                        
+                        <tr class="region-cell">
+                            <td colspan="6">多盲</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>2/2 12:12</td>
+                            <td></td>
+                            <td>张靖阳</td>
+                            <td>2017WCA高阶盲拧魔方赛</td>
+                            <td>2017-12-10</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        
+        const allProjects = [
+            { id: '333', name: '三阶魔方' },
+            { id: '222', name: '二阶魔方' },
+            { id: '444', name: '四阶魔方' },
+            { id: '555', name: '五阶魔方' },
+            { id: '666', name: '六阶魔方' },
+            { id: '777', name: '七阶魔方' },
+            { id: '333bf', name: '三阶盲拧' },
+            { id: '333fm', name: '三阶最少步' },
+            { id: '333oh', name: '三阶单手' },
+            { id: 'clock', name: '魔表' },
+            { id: 'minx', name: '五魔方' },
+            { id: 'pyram', name: '金字塔' },
+            { id: 'skewb', name: '斜转' },
+            { id: 'sq1', name: 'SQ1' },
+            { id: '444bf', name: '四阶盲拧' },
+            { id: '555bf', name: '五阶盲拧' },
+            { id: '333mbf', name: '多盲' },
+        ];
+
+        
+        const mockData = {
+            '333': {
+                name: '三阶魔方',
+                single: [
+                    { name: '肖翔', region: '惠州', result: '7.25', wcaid: '2025XIAO11' },
+                    { name: '朱锐', region: '惠州', result: '7.05', wcaid: '2016ZHUR01' },
+                    { name: '张文睿', region: '惠州', result: '9.12', wcaid: '2019ZHAW02' },
+                    { name: '程礼钦', region: '惠州', result: '9.15', wcaid: '2023CHEL09' },
+                    { name: '黄宇澄', region: '惠州', result: '9.46', wcaid: '2024HUAN48' },
+                    { name: '陈林', region: '惠州', result: '9.53', wcaid: '2019CHEN61' },
+                    { name: '叶梓熠', region: '惠州', result: '8.97', wcaid: '2021YESH01' },
+                    { name: '黄嘉钦', region: '惠州', result: '9.65', wcaid: '2019HUAN96' },
+                    { name: '陈映光', region: '惠州', result: '9.82', wcaid: '2013CHEN43' },
+                    { name: '谭熙', region: '惠州', result: '10.03', wcaid: '2019TANX01' },
+                    { name: '丘仕铖', region: '惠州', result: '10.11', wcaid: '2010QIUS01' },
+                    { name: '卢晓龙', region: '惠州', result: '10.30', wcaid: '2010LUXI02' },
+                    { name: '黄巧雲', region: '惠州', result: '10.52', wcaid: '2018HUAN10' },
+                    { name: '严宇业', region: '惠州', result: '10.64', wcaid: '2024YANY02' },
+                    { name: '李坤锜', region: '惠州', result: '10.70', wcaid: '2014LIKU02' },
+                    { name: '潘奕晟', region: '惠州', result: '11.23', wcaid: '2017PANY04' },
+                    { name: '廖启晨', region: '惠州', result: '11.58', wcaid: '2015LIAO02' },
+                    { name: '叶雨涛', region: '惠州', result: '11.72', wcaid: '2014YEYU01' },
+                    { name: '徐卫强', region: '惠州', result: '11.84', wcaid: '2016XUWE01' },
+                    { name: '丘仕豪', region: '惠州', result: '12.59', wcaid: '2017QIUS02' },
+                    { name: '骆峻辰', region: '惠州', result: '12.30', wcaid: '2015LUOJ01' },
+                    { name: '刘丹倩', region: '惠州', result: '12.58', wcaid: '2013LIUD03' },
+                    { name: '李信朗', region: '惠州', result: '12.64', wcaid: '2015LIXI04' },
+                    { name: '李易', region: '惠州', result: '12.66', wcaid: '2017LIYI05' },
+                    { name: '陈伟健', region: '惠州', result: '12.79', wcaid: '2013CHEN28' },
+                    { name: '曾锦龙', region: '惠州', result: '13.01', wcaid: '2014ZENG05' },
+                    { name: '郑荣展', region: '惠州', result: '13.15', wcaid: '2012ZHEN08' },
+                    { name: '金柳', region: '惠州', result: '13.30', wcaid: '2015JINL01' },
+                    { name: '李德贤', region: '惠州', result: '13.40', wcaid: '2015LIDE02' },
+                    { name: '钟文亮', region: '惠州', result: '13.42', wcaid: '2015ZHON04' },
+                    { name: '朱锦涛', region: '惠州', result: '13.43', wcaid: '2015ZHUJ02' },
+                    { name: '高扬', region: '惠州', result: '13.85', wcaid: '2016GAOY01' },
+                    { name: '刘军豪', region: '惠州', result: '14.09', wcaid: '2021LIUJ02' },
+                    { name: '余旭', region: '惠州', result: '14.14', wcaid: '2021YUXU02' },
+                    { name: '刘伟标', region: '惠州', result: '14.41', wcaid: '2014LIUW04' },
+                    { name: '梁怡庆', region: '惠州', result: '15.52', wcaid: '2020LIAN01' },
+                    { name: '刘韦杰', region: '惠州', result: '15.78', wcaid: '2015LIUW04' },
+                    { name: '丘宇', region: '惠州', result: '16.36', wcaid: '2025QIUY01' },
+                    { name: '王导航', region: '惠州', result: '16.50', wcaid: '2017WANG35' },
+                    { name: '毛楚元', region: '惠州', result: '16.77', wcaid: '2017MAOC01' },
+                    { name: '刘伟斌', region: '惠州', result: '16.86', wcaid: '2014LIUW01' },
+                    { name: '梁卓文', region: '惠州', result: '17.02', wcaid: '2015LIAN01' },
+                    { name: '王敏疆', region: '惠州', result: '17.24', wcaid: '2014WANG41' },
+                    { name: '谭沐民', region: '惠州', result: '17.45', wcaid: '2015TANM01' },
+                    { name: '刘润峰', region: '惠州', result: '17.57', wcaid: '2014LIUR01' },
+                    { name: '叶锐', region: '惠州', result: '17.99', wcaid: '2019YERU01' },
+                    { name: '邓嘉豪', region: '惠州', result: '18.00', wcaid: '2018DENG11' },
+                    { name: '李远军', region: '惠州', result: '18.27', wcaid: '2015LIYU03' },
+                    { name: '钟承烨', region: '惠州', result: '18.97', wcaid: '2017ZHON09' },
+                    { name: '王艺泽', region: '惠州', result: '19.18', wcaid: '2014WANG42' },
+                    { name: '方育基', region: '惠州', result: '19.45', wcaid: '2014FANG05' },
+                    { name: '温钰堃', region: '惠州', result: '20.38', wcaid: '2014WENY01' },
+                    { name: '张昱', region: '惠州', result: '20.49', wcaid: '2015ZHAN52' },
+                    { name: '张靖阳', region: '惠州', result: '20.95', wcaid: '2016ZHAN17' },
+                    { name: '叶禹丰', region: '惠州', result: '22.65', wcaid: '2014YEYU02' },
+                    { name: '黄殷玮', region: '惠州', result: '22.77', wcaid: '2014HUAN17' },
+                    { name: '张恒', region: '惠州', result: '22.95', wcaid: '2014ZHAN34' },
+                    { name: '雍迪', region: '惠州', result: '23.71', wcaid: '2015YONG01' },
+                    { name: '陈思民', region: '惠州', result: '24.92', wcaid: '2015CHEN61' },
+                    { name: '韩志刚', region: '惠州', result: '24.97', wcaid: '2014HANZ01' },
+                    { name: '廖家旭', region: '惠州', result: '29.76', wcaid: '2017LIAO16' },
+                    { name: '李子聪', region: '惠州', result: '32.13', wcaid: '2017LIZ112' },
+                    { name: '陈锘铜', region: '惠州', result: '37.38', wcaid: '2017CHNU03' },
+                    { name: '李乐言', region: '惠州', result: '41.06', wcaid: '2017LILE01' },
+                    { name: '石晓兰', region: '惠州', result: '42.58', wcaid: '2015SHIX01' }
+                ],
+                average: [
+                    { name: '肖翔', region: '惠州', result: '8.78', wcaid: '2025XIAO11' },
+                    { name: '张文睿', region: '惠州', result: '10.39', wcaid: '2019ZHAW02' },
+                    { name: '程礼钦', region: '惠州', result: '10.39', wcaid: '2023CHEL09' },
+                    { name: '黄宇澄', region: '惠州', result: '10.96', wcaid: '2024HUAN48' },
+                    { name: '叶梓熠', region: '惠州', result: '10.45', wcaid: '2021YESH01' },
+                    { name: '黄嘉钦', region: '惠州', result: '10.49', wcaid: '2019HUAN96' },
+                    { name: '朱锐', region: '惠州', result: '8.97', wcaid: '2016ZHUR01' },
+                    { name: '严宇业', region: '惠州', result: '12.15', wcaid: '2024YANY02' },
+                    { name: '陈林', region: '惠州', result: '13.81', wcaid: '2019CHEN61' },
+                    { name: '丘仕铖', region: '惠州', result: '11.77', wcaid: '2010QIUS01' },
+                    { name: '陈映光', region: '惠州', result: '12.25', wcaid: '2013CHEN43' },
+                    { name: '谭熙', region: '惠州', result: '12.37', wcaid: '2019TANX01' },
+                    { name: '卢晓龙', region: '惠州', result: '13.43', wcaid: '2010LUXI02' },
+                    { name: '骆峻辰', region: '惠州', result: '13.46', wcaid: '2015LUOJ01' },
+                    { name: '黄巧雲', region: '惠州', result: '13.30', wcaid: '2018HUAN10' },
+                    { name: '李坤锜', region: '惠州', result: '13.76', wcaid: '2014LIKU02' },
+                    { name: '徐卫强', region: '惠州', result: '13.77', wcaid: '2016XUWE01' },
+                    { name: '潘奕晟', region: '惠州', result: '13.80', wcaid: '2017PANY04' },
+                    { name: '叶雨涛', region: '惠州', result: '14.02', wcaid: '2014YEYU01' },
+                    { name: '廖启晨', region: '惠州', result: '14.28', wcaid: '2015LIAO02' },
+                    { name: '高扬', region: '惠州', result: '14.33', wcaid: '2016GAOY01' },
+                    { name: '陈伟健', region: '惠州', result: '14.52', wcaid: '2013CHEN28' },
+                    { name: '钟文亮', region: '惠州', result: '14.55', wcaid: '2015ZHON04' },
+                    { name: '李信朗', region: '惠州', result: '14.65', wcaid: '2015LIXI04' },
+                    { name: '刘丹倩', region: '惠州', result: '14.76', wcaid: '2013LIUD03' },
+                    { name: '金柳', region: '惠州', result: '15.06', wcaid: '2015JINL01' },
+                    { name: '李德贤', region: '惠州', result: '15.26', wcaid: '2015LIDE02' },
+                    { name: '郑荣展', region: '惠州', result: '15.48', wcaid: '2012ZHEN08' },
+                    { name: '余旭', region: '惠州', result: '15.65', wcaid: '2021YUXU02' },
+                    { name: '李易', region: '惠州', result: '15.92', wcaid: '2017LIYI05' },
+                    { name: '丘宇', region: '惠州', result: '17.32', wcaid: '2025QIUY01' },
+                    { name: '丘仕豪', region: '惠州', result: '16.02', wcaid: '2017QIUS02' },
+                    { name: '曾锦龙', region: '惠州', result: '16.88', wcaid: '2014ZENG05' },
+                    { name: '梁怡庆', region: '惠州', result: '17.27', wcaid: '2020LIAN01' },
+                    { name: '刘军豪', region: '惠州', result: '16.53', wcaid: '2021LIUJ02' },
+                    { name: '朱锦涛', region: '惠州', result: '18.03', wcaid: '2015ZHUJ02' },
+                    { name: '刘伟标', region: '惠州', result: '18.19', wcaid: '2014LIUW04' },
+                    { name: '刘润峰', region: '惠州', result: '18.28', wcaid: '2014LIUR01' },
+                    { name: '方育基', region: '惠州', result: '19.73', wcaid: '2014FANG05' },
+                    { name: '毛楚元', region: '惠州', result: '20.20', wcaid: '2017MAOC01' },
+                    { name: '邓嘉豪', region: '惠州', result: '20.44', wcaid: '2018DENG11' },
+                    { name: '王导航', region: '惠州', result: '20.55', wcaid: '2017WANG35' },
+                    { name: '李远军', region: '惠州', result: '21.25', wcaid: '2015LIYU03' },
+                    { name: '王敏疆', region: '惠州', result: '21.36', wcaid: '2014WANG41' },
+                    { name: '刘伟斌', region: '惠州', result: '21.56', wcaid: '2014LIUW01' },
+                    { name: '刘韦杰', region: '惠州', result: '21.76', wcaid: '2015LIUW04' },
+                    { name: '谭沐民', region: '惠州', result: '22.52', wcaid: '2015TANM01' },
+                    { name: '温钰堃', region: '惠州', result: '22.80', wcaid: '2014WENY01' },
+                    { name: '梁卓文', region: '惠州', result: '22.82', wcaid: '2015LIAN01' },
+                    { name: '王艺泽', region: '惠州', result: '22.95', wcaid: '2014WANG42' },
+                    { name: '叶锐', region: '惠州', result: '23.36', wcaid: '2019YERU01' },
+                    { name: '张靖阳', region: '惠州', result: '24.47', wcaid: '2016ZHAN17' },
+                    { name: '张昱', region: '惠州', result: '25.29', wcaid: '2015ZHAN52' },
+                    { name: '张恒', region: '惠州', result: '25.29', wcaid: '2014ZHAN34' },
+                    { name: '叶禹丰', region: '惠州', result: '25.94', wcaid: '2014YEYU02' },
+                    { name: '黄殷玮', region: '惠州', result: '26.24', wcaid: '2014HUAN17' },
+                    { name: '雍迪', region: '惠州', result: '27.58', wcaid: '2015YONG01' },
+                    { name: '陈思民', region: '惠州', result: '28.22', wcaid: '2015CHEN61' },
+                    { name: '钟承烨', region: '惠州', result: '28.49', wcaid: '2017ZHON09' },
+                    { name: '韩志刚', region: '惠州', result: '28.67', wcaid: '2014HANZ01' },
+                    { name: '廖家旭', region: '惠州', result: '34.72', wcaid: '2017LIAO16' },
+                    { name: '李子聪', region: '惠州', result: '40.21', wcaid: '2017LIZ112' },
+                    { name: '李乐言', region: '惠州', result: '43.81', wcaid: '2017LILE01' },
+                    { name: '石晓兰', region: '惠州', result: '53.70', wcaid: '2015SHIX01' }
+                ]
+            },
+            '222': {
+                name: '二阶魔方',
+                single: [
+                    { name: '陈映光', region: '惠州', result: '1.68', wcaid: '2013CHEN43' },
+                    { name: '李坤锜', region: '惠州', result: '1.77', wcaid: '2014LIKU02' },
+                    { name: '朱锐', region: '惠州', result: '2.22', wcaid: '2016ZHUR01' },
+                    { name: '程礼钦', region: '惠州', result: '2.44', wcaid: '2023CHEL09' },
+                    { name: '叶雨涛', region: '惠州', result: '2.47', wcaid: '2014YEYU01' },
+                    { name: '陈林', region: '惠州', result: '2.94', wcaid: '2019CHEN61' },
+                    { name: '潘奕晟', region: '惠州', result: '2.79', wcaid: '2017PANY04' },
+                    { name: '肖翔', region: '惠州', result: '3.25', wcaid: '2025XIAO11' },
+                    { name: '丘仕豪', region: '惠州', result: '3.32', wcaid: '2017QIUS02' },
+                    { name: '卢晓龙', region: '惠州', result: '3.19', wcaid: '2010LUXI02' },
+                    { name: '刘丹倩', region: '惠州', result: '3.36', wcaid: '2013LIUD03' },
+                    { name: '张文睿', region: '惠州', result: '3.48', wcaid: '2019ZHAW02' },
+                    { name: '王导航', region: '惠州', result: '3.44', wcaid: '2017WANG35' },
+                    { name: '邓嘉豪', region: '惠州', result: '3.49', wcaid: '2018DENG11' },
+                    { name: '刘伟标', region: '惠州', result: '3.53', wcaid: '2014LIUW04' },
+                    { name: '刘韦杰', region: '惠州', result: '3.62', wcaid: '2015LIUW04' },
+                    { name: '黄嘉钦', region: '惠州', result: '3.78', wcaid: '2019HUAN96' },
+                    { name: '谭熙', region: '惠州', result: '3.82', wcaid: '2019TANX01' },
+                    { name: '叶梓熠', region: '惠州', result: '3.83', wcaid: '2021YESH01' },
+                    { name: '丘仕铖', region: '惠州', result: '4.02', wcaid: '2010QIUS01' },
+                    { name: '陈伟健', region: '惠州', result: '4.16', wcaid: '2013CHEN28' },
+                    { name: '王敏疆', region: '惠州', result: '4.25', wcaid: '2014WANG41' },
+                    { name: '廖启晨', region: '惠州', result: '4.29', wcaid: '2015LIAO02' },
+                    { name: '骆峻辰', region: '惠州', result: '4.32', wcaid: '2015LUOJ01' },
+                    { name: '郑荣展', region: '惠州', result: '4.47', wcaid: '2012ZHEN08' },
+                    { name: '余旭', region: '惠州', result: '4.78', wcaid: '2021YUXU02' },
+                    { name: '梁卓文', region: '惠州', result: '4.84', wcaid: '2015LIAN01' },
+                    { name: '钟文亮', region: '惠州', result: '4.94', wcaid: '2015ZHON04' },
+                    { name: '梁怡庆', region: '惠州', result: '5.05', wcaid: '2020LIAN01' },
+                    { name: '徐卫强', region: '惠州', result: '5.05', wcaid: '2016XUWE01' },
+                    { name: '金柳', region: '惠州', result: '5.11', wcaid: '2015JINL01' },
+                    { name: '陈思民', region: '惠州', result: '5.26', wcaid: '2015CHEN61' },
+                    { name: '刘伟斌', region: '惠州', result: '5.28', wcaid: '2014LIUW01' },
+                    { name: '彭品桦', region: '惠州', result: '5.43', wcaid: '2021PENG04' },
+                    { name: '曾锦龙', region: '惠州', result: '5.61', wcaid: '2014ZENG05' },
+                    { name: '叶锐', region: '惠州', result: '5.71', wcaid: '2019YERU01' },
+                    { name: '张靖阳', region: '惠州', result: '6.30', wcaid: '2016ZHAN17' },
+                    { name: '朱锦涛', region: '惠州', result: '6.49', wcaid: '2015ZHUJ02' },
+                    { name: '雍迪', region: '惠州', result: '6.67', wcaid: '2015YONG01' },
+                    { name: '王艺泽', region: '惠州', result: '7.17', wcaid: '2014WANG42' },
+                    { name: '方育基', region: '惠州', result: '7.56', wcaid: '2014FANG05' },
+                    { name: '廖家旭', region: '惠州', result: '7.65', wcaid: '2017LIAO16' },
+                    { name: '黄殷玮', region: '惠州', result: '8.87', wcaid: '2014HUAN17' },
+                    { name: '李宗炫', region: '惠州', result: '13.13', wcaid: '2017LIZO02' },
+                    { name: '李乐言', region: '惠州', result: '13.18', wcaid: '2017LILE01' },
+                    { name: '李子聪', region: '惠州', result: '14.11', wcaid: '2017LIZl12' }
+                ],
+                average: [
+                    { name: '陈映光', region: '惠州', result: '2.63', wcaid: '2013CHEN43' },
+                    { name: '程礼钦', region: '惠州', result: '4.20', wcaid: '2023CHEL09' },
+                    { name: '陈林', region: '惠州', result: '4.91', wcaid: '2019CHEN61' },
+                    { name: '叶梓熠', region: '惠州', result: '4.17', wcaid: '2021YESH01' },
+                    { name: '朱锐', region: '惠州', result: '4.26', wcaid: '2016ZHUR01' },
+                    { name: '张文睿', region: '惠州', result: '4.67', wcaid: '2019ZHAW02' },
+                    { name: '潘奕晟', region: '惠州', result: '4.51', wcaid: '2017PANY04' },
+                    { name: '肖翔', region: '惠州', result: '4.36', wcaid: '2025XIAO11' },
+                    { name: '李坤锜', region: '惠州', result: '4.63', wcaid: '2014LIKU02' },
+                    { name: '丘仕豪', region: '惠州', result: '5.05', wcaid: '2017QIUS02' },
+                    { name: '丘仕铖', region: '惠州', result: '5.21', wcaid: '2010QIUS01' },
+                    { name: '余旭', region: '惠州', result: '5.25', wcaid: '2021YUXU02' },
+                    { name: '黄嘉钦', region: '惠州', result: '5.16', wcaid: '2019HUAN96' },
+                    { name: '谭熙', region: '惠州', result: '5.53', wcaid: '2019TANX01' },
+                    { name: '叶雨涛', region: '惠州', result: '5.56', wcaid: '2014YEYU01' },
+                    { name: '卢晓龙', region: '惠州', result: '5.69', wcaid: '2010LUXI02' },
+                    { name: '金柳', region: '惠州', result: '5.72', wcaid: '2015JINL01' },
+                    { name: '王敏疆', region: '惠州', result: '5.86', wcaid: '2014WANG41' },
+                    { name: '王导航', region: '惠州', result: '5.89', wcaid: '2017WANG35' },
+                    { name: '刘伟标', region: '惠州', result: '6.03', wcaid: '2014LIUW04' },
+                    { name: '梁怡庆', region: '惠州', result: '6.08', wcaid: '2020LIAN01' },
+                    { name: '徐卫强', region: '惠州', result: '6.24', wcaid: '2016XUWE01' },
+                    { name: '郑荣展', region: '惠州', result: '6.47', wcaid: '2012ZHEN08' },
+                    { name: '廖启晨', region: '惠州', result: '6.53', wcaid: '2015LIAO02' },
+                    { name: '叶锐', region: '惠州', result: '6.62', wcaid: '2019YERU01' },
+                    { name: '邓嘉豪', region: '惠州', result: '6.71', wcaid: '2018DENG11' },
+                    { name: '骆峻辰', region: '惠州', result: '6.80', wcaid: '2015LUOJ01' },
+                    { name: '钟文亮', region: '惠州', result: '6.82', wcaid: '2015ZHON04' },
+                    { name: '刘韦杰', region: '惠州', result: '7.03', wcaid: '2015LIUW04' },
+                    { name: '曾锦龙', region: '惠州', result: '7.06', wcaid: '2014ZENG05' },
+                    { name: '朱锦涛', region: '惠州', result: '7.08', wcaid: '2015ZHUJ02' },
+                    { name: '张靖阳', region: '惠州', result: '7.08', wcaid: '2016ZHAN17' },
+                    { name: '雍迪', region: '惠州', result: '7.12', wcaid: '2015YONG01' },
+                    { name: '刘丹倩', region: '惠州', result: '7.27', wcaid: '2013LIUD03' },
+                    { name: '彭品桦', region: '惠州', result: '7.27', wcaid: '2021PENG04' },
+                    { name: '刘伟斌', region: '惠州', result: '7.53', wcaid: '2014LIUW01' },
+                    { name: '梁卓文', region: '惠州', result: '7.77', wcaid: '2015LIAN01' },
+                    { name: '陈伟健', region: '惠州', result: '7.80', wcaid: '2013CHEN28' },
+                    { name: '王艺泽', region: '惠州', result: '8.47', wcaid: '2014WANG42' },
+                    { name: '方育基', region: '惠州', result: '9.45', wcaid: '2014FANG05' },
+                    { name: '陈思民', region: '惠州', result: '12.06', wcaid: '2015CHEN61' },
+                    { name: '廖家旭', region: '惠州', result: '13.10', wcaid: '2017LIAO16' },
+                    { name: '黄殷玮', region: '惠州', result: '15.06', wcaid: '2014HUAN17' },
+                    { name: '李乐言', region: '惠州', result: '16.42', wcaid: '2017LILE01' },
+                    { name: '李宗炫', region: '惠州', result: '16.54', wcaid: '2017LIZO02' },
+                    { name: '李子聪', region: '惠州', result: '19.81', wcaid: '2017LIZl12' }
+                ]
+            },
+            '444': {
+                name: '四阶魔方',
+                single: [
+                    { name: '肖翔', region: '惠州', result: '23.89', wcaid: '2025XIAO11' },
+                    { name: '严宇业', region: '惠州', result: '34.55', wcaid: '2024YANY02' },
+                    { name: '程礼钦', region: '惠州', result: '39.05', wcaid: '2023CHEL09' },
+                    { name: '丘仕铖', region: '惠州', result: '40.96', wcaid: '2010QIUS01' },
+                    { name: '刘丹倩', region: '惠州', result: '41.37', wcaid: '2013LIUD03' },
+                    { name: '叶梓熠', region: '惠州', result: '42.45', wcaid: '2021YESH01' },
+                    { name: '陈映光', region: '惠州', result: '45.57', wcaid: '2013CHEN43' },
+                    { name: '叶雨涛', region: '惠州', result: '44.08', wcaid: '2014YEYU01' },
+                    { name: '朱锐', region: '惠州', result: '44.49', wcaid: '2016ZHUR01' },
+                    { name: '徐卫强', region: '惠州', result: '47.92', wcaid: '2016XUWE01' },
+                    { name: '彭飞杰', region: '惠州', result: '48.13', wcaid: '2016PENG06' },
+                    { name: '李坤锜', region: '惠州', result: '48.15', wcaid: '2014LIKU02' },
+                    { name: '陈林', region: '惠州', result: '50.81', wcaid: '2019CHEN61' },
+                    { name: '潘奕晟', region: '惠州', result: '52.41', wcaid: '2017PANY04' },
+                    { name: '黄嘉钦', region: '惠州', result: '55.21', wcaid: '2019HUAN96' },
+                    { name: '卢晓龙', region: '惠州', result: '56.63', wcaid: '2010LUXI02' },
+                    { name: '谭熙', region: '惠州', result: '58.02', wcaid: '2019TANX01' },
+                    { name: '郑荣展', region: '惠州', result: '1:04.02', wcaid: '2012ZHEN08' },
+                    { name: '骆峻辰', region: '惠州', result: '1:04.02', wcaid: '2015LUOJ01' },
+                    { name: '廖启晨', region: '惠州', result: '1:08.89', wcaid: '2015LIAO02' },
+                    { name: '朱锦涛', region: '惠州', result: '1:09.37', wcaid: '2015ZHUJ02' },
+                    { name: '李易', region: '惠州', result: '1:10.06', wcaid: '2017LIYI05' },
+                    { name: '陈伟健', region: '惠州', result: '1:19.62', wcaid: '2013CHEN28' },
+                    { name: '王艺泽', region: '惠州', result: '1:27.47', wcaid: '2014WANG42' },
+                    { name: '梁卓文', region: '惠州', result: '1:29.99', wcaid: '2015LIAN01' },
+                    { name: '黄巧雲', region: '惠州', result: '1:37.80', wcaid: '2018HUAN10' },
+                    { name: '王敏疆', region: '惠州', result: '1:52.12', wcaid: '2014WANG41' }
+                ],
+                average: [
+                    { name: '肖翔', region: '惠州', result: '30.99', wcaid: '2025XIAO11' },
+                    { name: '严宇业', region: '惠州', result: '36.66', wcaid: '2024YANY02' },
+                    { name: '程礼钦', region: '惠州', result: '45.95', wcaid: '2023CHEL09' },
+                    { name: '刘丹倩', region: '惠州', result: '47.94', wcaid: '2013LIUD03' },
+                    { name: '叶梓熠', region: '惠州', result: '48.47', wcaid: '2021YESH01' },
+                    { name: '丘仕铖', region: '惠州', result: '49.21', wcaid: '2010QIUS01' },
+                    { name: '徐卫强', region: '惠州', result: '52.39', wcaid: '2016XUWE01' },
+                    { name: '陈映光', region: '惠州', result: '53.23', wcaid: '2013CHEN43' },
+                    { name: '朱锐', region: '惠州', result: '55.05', wcaid: '2016ZHUR01' },
+                    { name: '叶雨涛', region: '惠州', result: '55.59', wcaid: '2014YEYU01' },
+                    { name: '彭飞杰', region: '惠州', result: '55.87', wcaid: '2016PENG06' },
+                    { name: '黄嘉钦', region: '惠州', result: '1:01.10', wcaid: '2019HUAN96' },
+                    { name: '潘奕晟', region: '惠州', result: '58.14', wcaid: '2017PANY04' },
+                    { name: '李坤锜', region: '惠州', result: '1:01.25', wcaid: '2014LIKU02' },
+                    { name: '陈林', region: '惠州', result: '1:03.67', wcaid: '2019CHEN61' },
+                    { name: '卢晓龙', region: '惠州', result: '1:06.07', wcaid: '2010LUXI02' },
+                    { name: '郑荣展', region: '惠州', result: '1:18.26', wcaid: '2012ZHEN08' }
+                ]
+            },
+            '555': {
+                name: '五阶魔方',
+                single: [
+                    { name: '肖翔', region: '惠州', result: '57.71', wcaid: '2025XIAO11' },
+                    { name: '程礼钦', region: '惠州', result: '1:16.09', wcaid: '2023CHEL09' },
+                    { name: '朱锐', region: '惠州', result: '1:21.93', wcaid: '2016ZHUR01' },
+                    { name: '陈林', region: '惠州', result: '1:43.94', wcaid: '2019CHEN61' },
+                    { name: '徐卫强', region: '惠州', result: '1:41.91', wcaid: '2016XUWE01' },
+                    { name: '刘丹倩', region: '惠州', result: '1:56.29', wcaid: '2013LIUD03' },
+                    { name: '丘仕铖', region: '惠州', result: '1:57.26', wcaid: '2010QIUS01' },
+                    { name: '陈映光', region: '惠州', result: '2:19.35', wcaid: '2013CHEN43' },
+                    { name: '廖启晨', region: '惠州', result: '2:33.73', wcaid: '2015LIAO02' },
+                    { name: '叶雨涛', region: '惠州', result: '2:36.69', wcaid: '2014YEYU01' },
+                    { name: '梁卓文', region: '惠州', result: '2:43.61', wcaid: '2015LIAN01' }
+                ],
+                average: [
+                    { name: '肖翔', region: '惠州', result: '1:01.94', wcaid: '2025XIAO11' },
+                    { name: '程礼钦', region: '惠州', result: '1:21.32', wcaid: '2023CHEL09' },
+                    { name: '朱锐', region: '惠州', result: '1:33.37', wcaid: '2016ZHUR01' },
+                    { name: '徐卫强', region: '惠州', result: '1:49.75', wcaid: '2016XUWE01' },
+                    { name: '刘丹倩', region: '惠州', result: '2:01.98', wcaid: '2013LIUD03' },
+                    { name: '陈林', region: '惠州', result: '1:57.34', wcaid: '2019CHEN61' },
+                    { name: '丘仕铖', region: '惠州', result: '2:11.27', wcaid: '2010QIUS01' }
+                ]
+            },
+            '666': {
+                name: '六阶魔方',
+                single: [
+                    { name: '肖翔', region: '惠州', result: '1:39.88', wcaid: '2025XIAO11' },
+                    { name: '徐卫强', region: '惠州', result: '3:52.59', wcaid: '2016XUWE01' }
+                ],
+                average: [
+                    { name: '肖翔', region: '惠州', result: '1:46.10', wcaid: '2025XIAO11' }
+                ]
+            },
+            '777': {
+                name: '七阶魔方',
+                single: [
+                    { name: '肖翔', region: '惠州', result: '2:36.85', wcaid: '2025XIAO11' },
+                    { name: '徐卫强', region: '惠州', result: '5:17.59', wcaid: '2016XUWE01' }
+                ],
+                average: [
+                    { name: '肖翔', region: '惠州', result: '2:41.78', wcaid: '2025XIAO11' }
+                ]
+            },
+            '333bf': {
+                name: '三阶盲拧',
+                single: [
+                    { name: '严宇业', region: '惠州', result: '17.67', wcaid: '2024YANY02' },
+                    { name: '张靖阳', region: '惠州', result: '3:06.01', wcaid: '2016ZHAN17' }
+                ],
+                average: [
+                    { name: '严宇业', region: '惠州', result: '24.70', wcaid: '2024YANY02' },
+                    { name: '张靖阳', region: '惠州', result: '3:47.92', wcaid: '2016ZHAN17' }
+                ]
+            },
+            '333fm': {
+                name: '三阶最少步',
+                single: [
+                    { name: '梁卓文', region: '惠州', result: '37', wcaid: '2015LIAN01' }
+                ],
+                average: [
+                    { name: '梁卓文', region: '惠州', result: '42', wcaid: '2015LIAN01' }
+                ]
+            },
+            '333oh': {
+                name: '三阶单手',
+                single: [
+                    { name: '潘奕晟', region: '惠州', result: '13.71', wcaid: '2017PANY04' },
+                    { name: '黄宇澄', region: '惠州', result: '13.92', wcaid: '2024HUAN48' },
+                    { name: '朱锐', region: '惠州', result: '15.21', wcaid: '2016ZHUR01' },
+                    { name: '程礼钦', region: '惠州', result: '16.35', wcaid: '2023CHEL09' },
+                    { name: '肖翔', region: '惠州', result: '16.78', wcaid: '2025XIAO11' },
+                    { name: '丘仕铖', region: '惠州', result: '16.84', wcaid: '2010QIUS01' },
+                    { name: '黄嘉钦', region: '惠州', result: '17.25', wcaid: '2019HUAN96' },
+                    { name: '徐卫强', region: '惠州', result: '18.94', wcaid: '2016XUWE01' },
+                    { name: '叶梓熠', region: '惠州', result: '19.14', wcaid: '2021YESH01' },
+                    { name: '彭飞杰', region: '惠州', result: '19.36', wcaid: '2016PENG06' },
+                    { name: '叶雨涛', region: '惠州', result: '21.24', wcaid: '2014YEYU01' },
+                    { name: '李信朗', region: '惠州', result: '21.52', wcaid: '2015LIXI04' },
+                    { name: '廖启晨', region: '惠州', result: '22.04', wcaid: '2015LIAO02' },
+                    { name: '曾锦龙', region: '惠州', result: '22.21', wcaid: '2014ZENG05' },
+                    { name: '李坤锜', region: '惠州', result: '22.49', wcaid: '2014LIKU02' },
+                    { name: '郑荣展', region: '惠州', result: '22.97', wcaid: '2012ZHEN08' },
+                    { name: '陈映光', region: '惠州', result: '23.78', wcaid: '2013CHEN43' },
+                    { name: '卢晓龙', region: '惠州', result: '25.50', wcaid: '2010LUXI02' },
+                    { name: '李远军', region: '惠州', result: '29.30', wcaid: '2015LIYU03' },
+                    { name: '刘丹倩', region: '惠州', result: '31.28', wcaid: '2013LIUD03' },
+                    { name: '朱锦涛', region: '惠州', result: '31.66', wcaid: '2015ZHUJ02' },
+                    { name: '韩志刚', region: '惠州', result: '38.19', wcaid: '2014HANZ01' },
+                    { name: '梁卓文', region: '惠州', result: '45.91', wcaid: '2015LIAN01' },
+                    { name: '陈林', region: '惠州', result: '46.89', wcaid: '2019CHEN61' },
+                    { name: '王艺泽', region: '惠州', result: '59.17', wcaid: '2014WANG42' }
+                ],
+                average: [
+                    { name: '朱锐', region: '惠州', result: '17.44', wcaid: '2016ZHUR01' },
+                    { name: '潘奕晟', region: '惠州', result: '17.91', wcaid: '2017PANY04' },
+                    { name: '黄宇澄', region: '惠州', result: '18.39', wcaid: '2024HUAN48' },
+                    { name: '肖翔', region: '惠州', result: '18.66', wcaid: '2025XIAO11' },
+                    { name: '程礼钦', region: '惠州', result: '19.63', wcaid: '2023CHEL09' },
+                    { name: '黄嘉钦', region: '惠州', result: '20.12', wcaid: '2019HUAN96' },
+                    { name: '彭飞杰', region: '惠州', result: '22.35', wcaid: '2016PENG06' },
+                    { name: '丘仕铖', region: '惠州', result: '22.48', wcaid: '2010QIUS01' },
+                    { name: '李信朗', region: '惠州', result: '23.14', wcaid: '2015LIXI04' },
+                    { name: '叶雨涛', region: '惠州', result: '23.45', wcaid: '2014YEYU01' },
+                    { name: '徐卫强', region: '惠州', result: '25.23', wcaid: '2016XUWE01' },
+                    { name: '叶梓熠', region: '惠州', result: '26.58', wcaid: '2021YESH01' },
+                    { name: '李坤锜', region: '惠州', result: '26.85', wcaid: '2014LIKU02' },
+                    { name: '廖启晨', region: '惠州', result: '28.25', wcaid: '2015LIAO02' },
+                    { name: '曾锦龙', region: '惠州', result: '28.89', wcaid: '2014ZENG05' },
+                    { name: '郑荣展', region: '惠州', result: '30.34', wcaid: '2012ZHEN08' },
+                    { name: '陈映光', region: '惠州', result: '33.03', wcaid: '2013CHEN43' },
+                    { name: '卢晓龙', region: '惠州', result: '33.11', wcaid: '2010LUXI02' },
+                    { name: '李远军', region: '惠州', result: '33.46', wcaid: '2015LIYU03' },
+                    { name: '刘丹倩', region: '惠州', result: '39.31', wcaid: '2013LIUD03' },
+                    { name: '韩志刚', region: '惠州', result: '40.17', wcaid: '2014HANZ01' },
+                    { name: '陈林', region: '惠州', result: '1:03.45', wcaid: '2019CHEN61' }
+                ]
+            },
+            'clock': {
+                name: '魔表',
+                single: [
+                    { name: '彭品桦', region: '惠州', result: '5.22', wcaid: '2021PENG04' },
+                    { name: '谭熙', region: '惠州', result: '7.15', wcaid: '2019TANX01' },
+                    { name: '陈林', region: '惠州', result: '6.65', wcaid: '2019CHEN61' },
+                    { name: '程礼钦', region: '惠州', result: '11.03', wcaid: '2023CHEL09' },
+                    { name: '陈映光', region: '惠州', result: '12.98', wcaid: '2013CHEN43' },
+                    { name: '廖启晨', region: '惠州', result: '13.25', wcaid: '2015LIAO02' },
+                    { name: '卢晓龙', region: '惠州', result: '14.19', wcaid: '2010LUXI02' },
+                    { name: '黄嘉钦', region: '惠州', result: '17.50', wcaid: '2019HUAN96' },
+                    { name: '丘仕铖', region: '惠州', result: '20.29', wcaid: '2010QIUS01' },
+                    { name: '叶雨涛', region: '惠州', result: '22.54', wcaid: '2014YEYU01' }
+                ],
+                average: [
+                    { name: '彭品桦', region: '惠州', result: '6.41', wcaid: '2021PENG04' },
+                    { name: '谭熙', region: '惠州', result: '8.19', wcaid: '2019TANX01' },
+                    { name: '陈林', region: '惠州', result: '8.41', wcaid: '2019CHEN61' },
+                    { name: '陈映光', region: '惠州', result: '13.76', wcaid: '2013CHEN43' },
+                    { name: '程礼钦', region: '惠州', result: '14.09', wcaid: '2023CHEL09' },
+                    { name: '廖启晨', region: '惠州', result: '14.61', wcaid: '2015LIAO02' },
+                    { name: '黄嘉钦', region: '惠州', result: '20.02', wcaid: '2019HUAN96' },
+                    { name: '卢晓龙', region: '惠州', result: '19.21', wcaid: '2010LUXI02' }
+                ]
+            },
+            'minx': {
+                name: '五魔方',
+                single: [
+                    { name: '叶梓熠', region: '惠州', result: '43.91', wcaid: '2021YESH01' },
+                    { name: '黄嘉钦', region: '惠州', result: '1:51.11', wcaid: '2019HUAN96' },
+                    { name: '刘伟斌', region: '惠州', result: '1:40.23', wcaid: '2014LIUW01' },
+                    { name: '丘仕铖', region: '惠州', result: '1:44.84', wcaid: '2010QIUS01' },
+                    { name: '李易', region: '惠州', result: '1:45.18', wcaid: '2017LIYI05' },
+                    { name: '谭熙', region: '惠州', result: '2:18.94', wcaid: '2019TANX01' },
+                    { name: '徐卫强', region: '惠州', result: '2:18.79', wcaid: '2016XUWE01' },
+                    { name: '叶雨涛', region: '惠州', result: '2:21.84', wcaid: '2014YEYU01' },
+                    { name: '梁卓文', region: '惠州', result: '2:23.88', wcaid: '2015LIAN01' }
+                ],
+                average: [
+                    { name: '叶梓熠', region: '惠州', result: '45.76', wcaid: '2021YESH01' },
+                    { name: '刘伟斌', region: '惠州', result: '1:46.70', wcaid: '2014LIUW01' },
+                    { name: '丘仕铖', region: '惠州', result: '2:07.83', wcaid: '2010QIUS01' }
+                ]
+            },
+            'pyram': {
+                name: '金字塔',
+                single: [
+                    { name: '叶梓熠', region: '惠州', result: '2.93', wcaid: '2021YESH01' },
+                    { name: '程礼钦', region: '惠州', result: '3.19', wcaid: '2023CHEL09' },
+                    { name: '肖翔', region: '惠州', result: '3.38', wcaid: '2025XIAO11' },
+                    { name: '叶锐', region: '惠州', result: '3.78', wcaid: '2019YERU01' },
+                    { name: '刘伟斌', region: '惠州', result: '3.97', wcaid: '2014LIUW01' },
+                    { name: '陈林', region: '惠州', result: '4.22', wcaid: '2019CHEN61' },
+                    { name: '谭熙', region: '惠州', result: '4.90', wcaid: '2019TANX01' },
+                    { name: '彭品桦', region: '惠州', result: '5.44', wcaid: '2021PENG04' },
+                    { name: '黄嘉钦', region: '惠州', result: '5.49', wcaid: '2019HUAN96' },
+                    { name: '王敏疆', region: '惠州', result: '5.89', wcaid: '2014WANG41' },
+                    { name: '叶雨涛', region: '惠州', result: '6.00', wcaid: '2014YEYU01' },
+                    { name: '陈映光', region: '惠州', result: '6.34', wcaid: '2013CHEN43' },
+                    { name: '潘奕晟', region: '惠州', result: '6.79', wcaid: '2017PANY04' },
+                    { name: '卢晓龙', region: '惠州', result: '7.38', wcaid: '2010LUXI02' },
+                    { name: '彭飞杰', region: '惠州', result: '7.67', wcaid: '2016PENG06' },
+                    { name: '廖启晨', region: '惠州', result: '7.74', wcaid: '2015LIAO02' },
+                    { name: '朱锐', region: '惠州', result: '7.78', wcaid: '2016ZHUR01' },
+                    { name: '李坤锜', region: '惠州', result: '8.64', wcaid: '2014LIKU02' },
+                    { name: '徐卫强', region: '惠州', result: '9.25', wcaid: '2016XUWE01' },
+                    { name: '丘仕铖', region: '惠州', result: '9.66', wcaid: '2010QIUS01' },
+                    { name: '陈思民', region: '惠州', result: '10.81', wcaid: '2015CHEN61' },
+                    { name: '刘丹倩', region: '惠州', result: '11.64', wcaid: '2013LIUD03' },
+                    { name: '郑荣展', region: '惠州', result: '12.10', wcaid: '2012ZHEN08' },
+                    { name: '丘宇', region: '惠州', result: '12.99', wcaid: '2025QIUY01' },
+                    { name: '梁卓文', region: '惠州', result: '12.68', wcaid: '2015LIAN01' }
+                ],
+                average: [
+                    { name: '肖翔', region: '惠州', result: '4.15', wcaid: '2025XIAO11' },
+                    { name: '叶梓熠', region: '惠州', result: '3.93', wcaid: '2021YESH01' },
+                    { name: '程礼钦', region: '惠州', result: '4.62', wcaid: '2023CHEL09' },
+                    { name: '叶锐', region: '惠州', result: '5.19', wcaid: '2019YERU01' },
+                    { name: '陈林', region: '惠州', result: '5.54', wcaid: '2019CHEN61' },
+                    { name: '刘伟斌', region: '惠州', result: '5.63', wcaid: '2014LIUW01' },
+                    { name: '彭品桦', region: '惠州', result: '8.26', wcaid: '2021PENG04' },
+                    { name: '谭熙', region: '惠州', result: '7.32', wcaid: '2019TANX01' },
+                    { name: '卢晓龙', region: '惠州', result: '8.32', wcaid: '2010LUXI02' },
+                    { name: '陈映光', region: '惠州', result: '8.40', wcaid: '2013CHEN43' },
+                    { name: '叶雨涛', region: '惠州', result: '8.84', wcaid: '2014YEYU01' },
+                    { name: '王敏疆', region: '惠州', result: '9.00', wcaid: '2014WANG41' },
+                    { name: '丘仕铖', region: '惠州', result: '10.99', wcaid: '2010QIUS01' },
+                    { name: '廖启晨', region: '惠州', result: '11.68', wcaid: '2015LIAO02' },
+                    { name: '潘奕晟', region: '惠州', result: '11.74', wcaid: '2017PANY04' },
+                    { name: '徐卫强', region: '惠州', result: '12.26', wcaid: '2016XUWE01' },
+                    { name: '李坤锜', region: '惠州', result: '12.46', wcaid: '2014LIKU02' },
+                    { name: '朱锐', region: '惠州', result: '12.53', wcaid: '2016ZHUR01' },
+                    { name: '陈思民', region: '惠州', result: '12.70', wcaid: '2015CHEN61' },
+                    { name: '丘宇', region: '惠州', result: '14.91', wcaid: '2025QIUY01' },
+                    { name: '刘丹倩', region: '惠州', result: '14.36', wcaid: '2013LIUD03' },
+                    { name: '郑荣展', region: '惠州', result: '14.44', wcaid: '2012ZHEN08' },
+                    { name: '黄嘉钦', region: '惠州', result: '19.29', wcaid: '2019HUAN96' },
+                    { name: '梁卓文', region: '惠州', result: '19.27', wcaid: '2015LIAN01' },
+                    { name: '彭飞杰', region: '惠州', result: '20.82', wcaid: '2016PENG06' }
+                ]
+            },
+            'skewb': {
+                name: '斜转',
+                single: [
+                    { name: '谭熙', region: '惠州', result: '2.81', wcaid: '2019TANX01' },
+                    { name: '廖启晨', region: '惠州', result: '3.04', wcaid: '2015LIAO02' },
+                    { name: '肖翔', region: '惠州', result: '3.44', wcaid: '2025XIAO11' },
+                    { name: '张文睿', region: '惠州', result: '3.69', wcaid: '2019ZHAW02' },
+                    { name: '叶雨涛', region: '惠州', result: '3.92', wcaid: '2014YEYU01' },
+                    { name: '朱锐', region: '惠州', result: '4.38', wcaid: '2016ZHUR01' },
+                    { name: '朱锦涛', region: '惠州', result: '4.51', wcaid: '2015ZHUJ02' },
+                    { name: '彭品桦', region: '惠州', result: '4.73', wcaid: '2021PENG04' },
+                    { name: '叶锐', region: '惠州', result: '5.67', wcaid: '2019YERU01' },
+                    { name: '黄嘉钦', region: '惠州', result: '6.57', wcaid: '2019HUAN96' },
+                    { name: '叶梓熠', region: '惠州', result: '6.79', wcaid: '2021YESH01' },
+                    { name: '程礼钦', region: '惠州', result: '7.32', wcaid: '2023CHEL09' },
+                    { name: '刘伟斌', region: '惠州', result: '7.93', wcaid: '2014LIUW01' },
+                    { name: '徐卫强', region: '惠州', result: '9.01', wcaid: '2016XUWE01' },
+                    { name: '李坤锜', region: '惠州', result: '9.17', wcaid: '2014LIKU02' },
+                    { name: '丘仕铖', region: '惠州', result: '9.53', wcaid: '2010QIUS01' },
+                    { name: '陈映光', region: '惠州', result: '9.53', wcaid: '2013CHEN43' },
+                    { name: '彭飞杰', region: '惠州', result: '10.07', wcaid: '2016PENG06' },
+                    { name: '王敏疆', region: '惠州', result: '11.36', wcaid: '2014WANG41' },
+                    { name: '陈林', region: '惠州', result: '11.40', wcaid: '2019CHEN61' },
+                    { name: '潘奕晟', region: '惠州', result: '11.82', wcaid: '2017PANY04' },
+                    { name: '丘宇', region: '惠州', result: '14.45', wcaid: '2025QIUY01' },
+                    { name: '梁卓文', region: '惠州', result: '14.70', wcaid: '2015LIAN01' },
+                    { name: '刘韦杰', region: '惠州', result: '22.38', wcaid: '2015LIUW04' }
+                ],
+                average: [
+                    { name: '谭熙', region: '惠州', result: '4.02', wcaid: '2019TANX01' },
+                    { name: '廖启晨', region: '惠州', result: '5.06', wcaid: '2015LIAO02' },
+                    { name: '张文睿', region: '惠州', result: '5.24', wcaid: '2019ZHAW02' },
+                    { name: '肖翔', region: '惠州', result: '5.90', wcaid: '2025XIAO11' },
+                    { name: '叶雨涛', region: '惠州', result: '5.74', wcaid: '2014YEYU01' },
+                    { name: '朱锐', region: '惠州', result: '5.74', wcaid: '2016ZHUR01' },
+                    { name: '彭品桦', region: '惠州', result: '6.89', wcaid: '2021PENG04' },
+                    { name: '叶锐', region: '惠州', result: '6.66', wcaid: '2019YERU01' },
+                    { name: '叶梓熠', region: '惠州', result: '8.40', wcaid: '2021YESH01' },
+                    { name: '程礼钦', region: '惠州', result: '8.03', wcaid: '2023CHEL09' },
+                    { name: '朱锦涛', region: '惠州', result: '9.77', wcaid: '2015ZHUJ02' },
+                    { name: '陈映光', region: '惠州', result: '11.49', wcaid: '2013CHEN43' },
+                    { name: '李坤锜', region: '惠州', result: '11.60', wcaid: '2014LIKU02' },
+                    { name: '潘奕晟', region: '惠州', result: '12.63', wcaid: '2017PANY04' },
+                    { name: '黄嘉钦', region: '惠州', result: '12.84', wcaid: '2019HUAN96' },
+                    { name: '王敏疆', region: '惠州', result: '13.23', wcaid: '2014WANG41' },
+                    { name: '丘仕铖', region: '惠州', result: '13.95', wcaid: '2010QIUS01' },
+                    { name: '彭飞杰', region: '惠州', result: '14.74', wcaid: '2016PENG06' },
+                    { name: '徐卫强', region: '惠州', result: '15.32', wcaid: '2016XUWE01' },
+                    { name: '刘伟斌', region: '惠州', result: '17.40', wcaid: '2014LIUW01' },
+                    { name: '丘宇', region: '惠州', result: '18.13', wcaid: '2025QIUY01' },
+                    { name: '陈林', region: '惠州', result: '20.47', wcaid: '2019CHEN61' },
+                    { name: '梁卓文', region: '惠州', result: '25.58', wcaid: '2015LIAN01' }
+                ]
+            },
+            'sq1': {
+                name: 'SQ1',
+                single: [
+                    { name: '朱锐', region: '惠州', result: '13.48', wcaid: '2016ZHUR01' },
+                    { name: '陈映光', region: '惠州', result: '26.01', wcaid: '2013CHEN43' },
+                    { name: '丘仕铖', region: '惠州', result: '26.95', wcaid: '2010QIUS01' },
+                    { name: '刘伟斌', region: '惠州', result: '31.57', wcaid: '2014LIUW01' },
+                    { name: '彭品桦', region: '惠州', result: '29.46', wcaid: '2021PENG04' },
+                    { name: '廖启晨', region: '惠州', result: '50.15', wcaid: '2015LIAO02' },
+                    { name: '徐卫强', region: '惠州', result: '52.79', wcaid: '2016XUWE01' },
+                    { name: '梁卓文', region: '惠州', result: '56.86', wcaid: '2015LIAN01' }
+                ],
+                average: [
+                    { name: '朱锐', region: '惠州', result: '17.19', wcaid: '2016ZHUR01' },
+                    { name: '丘仕铖', region: '惠州', result: '37.00', wcaid: '2010QIUS01' },
+                    { name: '刘伟斌', region: '惠州', result: '39.79', wcaid: '2014LIUW01' },
+                    { name: '陈映光', region: '惠州', result: '43.29', wcaid: '2013CHEN43' }
+                ]
+            },
+            '444bf': {
+                name: '四阶盲拧',
+                single: [
+                    { name: '暂无', region: '惠州', result: '暂无', wcaid: '暂无' }
+                ],
+                average: [
+                    { name: '暂无', region: '惠州', result: '暂无', wcaid: '暂无' }
+                ]
+            },
+            '555bf': {
+                name: '五阶盲拧',
+                single: [
+                    { name: '暂无', region: '惠州', result: '暂无', wcaid: '暂无' }
+                ],
+                average: [
+                    { name: '暂无', region: '惠州', result: '暂无', wcaid: '暂无' }
+                ]
+            },
+            '333mbf': {
+                name: '多盲',
+                single: [
+                    { name: '张靖阳', region: '惠州', result: '2/2 12:12', wcaid: '2016ZHAN17' }
+                ],
+                average: [
+                    { name: '张靖阳', region: '惠州', result: '2/2 12:12', wcaid: '2016ZHAN17' }
+                ]
+            }
+        };
+
+        
+        let currentPage = 'project-detail';
+        let currentProject = '333';
+        let currentType = 'single';
+        let selectedProjects = new Set(['333', '222', '444']);
+        let rankingType = 'single';
+
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const pageId = this.getAttribute('data-page');
+                    switchPage(pageId);
+                });
+            });
+
+            
+            document.getElementById('single-btn').addEventListener('click', function() {
+                setCurrentType('single');
+                loadProjectData();
+            });
+
+            document.getElementById('average-btn').addEventListener('click', function() {
+                setCurrentType('average');
+                loadProjectData();
+            });
+
+            document.getElementById('project-select').addEventListener('change', function() {
+                currentProject = this.value;
+                loadProjectData();
+            });
+
+            
+            document.getElementById('single-ranking-btn').addEventListener('click', function() {
+                rankingType = 'single';
+                updateRankingTypeUI();
+                calculateComprehensiveRanking();
+            });
+
+            document.getElementById('average-ranking-btn').addEventListener('click', function() {
+                rankingType = 'average';
+                updateRankingTypeUI();
+                calculateComprehensiveRanking();
+            });
+
+            
+            initProjectSelector();
+            
+            
+            loadProjectData();
+            calculateComprehensiveRanking();
+            
+            
+            document.querySelectorAll('#region-records-table td, #region-records-table th').forEach(cell => {
+                cell.removeAttribute('align');
+            });
+        });
+
+        
+        function switchPage(pageId) {
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if (btn.getAttribute('data-page') === pageId) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            
+            document.querySelectorAll('.page').forEach(page => {
+                if (page.id === pageId) {
+                    page.classList.add('active');
+                } else {
+                    page.classList.remove('active');
+                }
+            });
+
+            currentPage = pageId;
+        }
+
+        
+        function setCurrentType(type) {
+            currentType = type;
+            
+            
+            if (type === 'single') {
+                document.getElementById('single-btn').classList.remove('btn-secondary');
+                document.getElementById('single-btn').classList.add('btn-primary');
+                document.getElementById('average-btn').classList.remove('btn-primary');
+                document.getElementById('average-btn').classList.add('btn-secondary');
+            } else {
+                document.getElementById('single-btn').classList.remove('btn-primary');
+                document.getElementById('single-btn').classList.add('btn-secondary');
+                document.getElementById('average-btn').classList.remove('btn-secondary');
+                document.getElementById('average-btn').classList.add('btn-primary');
+            }
+        }
+
+        
+        function parseTime(timeStr) {
+            if (timeStr === '暂无') return Infinity;
+            
+            
+            if (timeStr.includes('/')) {
+                const timePart = timeStr.split(' ')[1];
+                if (timePart && timePart.includes(':')) {
+                    const parts = timePart.split(':');
+                    if (parts.length === 2) {
+                        return parseFloat(parts[0]) * 60 + parseFloat(parts[1]);
+                    }
+                }
+                return Infinity;
+            }
+            
+            
+            if (timeStr.includes(':')) {
+                const parts = timeStr.split(':');
+                if (parts.length === 2) {
+                    return parseFloat(parts[0]) * 60 + parseFloat(parts[1]);
+                }
+            }
+            
+            
+            if (timeStr === '37' || timeStr === '42') {
+                return parseInt(timeStr);
+            }
+            
+            return parseFloat(timeStr);
+        }
+
+        
+        function loadProjectData() {
+            const projectData = mockData[currentProject];
+            const resultData = projectData[currentType];
+            const projectName = projectData.name;
+            const typeName = currentType === 'single' ? '单次成绩' : '平均成绩';
+            
+            
+            document.getElementById('current-project').textContent = projectName;
+            document.getElementById('current-type').textContent = typeName;
+            
+            
+            const sortedData = [...resultData].sort((a, b) => {
+                const timeA = parseTime(a.result);
+                const timeB = parseTime(b.result);
+                return timeA - timeB;
+            });
+            
+            
+            let currentRank = 1;
+            let lastResult = null;
+            let sameRankCount = 0;
+            
+            const rankedData = sortedData.map((item, index) => {
+                const currentResult = item.result;
+                
+                if (index === 0) {
+                    
+                    lastResult = currentResult;
+                    return {
+                        ...item,
+                        rank: currentRank
+                    };
+                }
+                
+                
+                if (currentResult === lastResult) {
+                    sameRankCount++;
+                    return {
+                        ...item,
+                        rank: currentRank
+                    };
+                } else {
+                    
+                    currentRank += 1 + sameRankCount;
+                    sameRankCount = 0;
+                    lastResult = currentResult;
+                    return {
+                        ...item,
+                        rank: currentRank
+                    };
+                }
+            });
+            
+            
+            const tbody = document.getElementById('project-table-body');
+            tbody.innerHTML = '';
+            
+            rankedData.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="rank-cell">${item.rank}</td>
+                    <td>${item.name}</td>
+                    <td>${item.region}</td>
+                    <td>${item.result}</td>
+                    <td>${item.wcaid}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        
+        function initProjectSelector() {
+            const selector = document.getElementById('project-selector');
+            selector.innerHTML = '';
+            
+            allProjects.forEach(project => {
+                const button = document.createElement('button');
+                button.className = 'project-btn';
+                button.textContent = project.name;
+                button.setAttribute('data-id', project.id);
+                
+                if (selectedProjects.has(project.id)) {
+                    button.classList.add('selected');
+                }
+                
+                button.addEventListener('click', function() {
+                    const projectId = this.getAttribute('data-id');
+                    
+                    if (selectedProjects.has(projectId)) {
+                        selectedProjects.delete(projectId);
+                        this.classList.remove('selected');
+                    } else {
+                        selectedProjects.add(projectId);
+                        this.classList.add('selected');
+                    }
+                    
+                    
+                    calculateComprehensiveRanking();
+                });
+                
+                selector.appendChild(button);
+            });
+        }
+
+        
+        function updateRankingTypeUI() {
+            const singleBtn = document.getElementById('single-ranking-btn');
+            const averageBtn = document.getElementById('average-ranking-btn');
+            const typeDisplay = document.getElementById('ranking-type-display');
+            
+            if (rankingType === 'single') {
+                singleBtn.classList.remove('btn-secondary');
+                singleBtn.classList.add('btn-primary');
+                averageBtn.classList.remove('btn-primary');
+                averageBtn.classList.add('btn-secondary');
+                typeDisplay.textContent = '单次排名';
+            } else {
+                singleBtn.classList.remove('btn-primary');
+                singleBtn.classList.add('btn-secondary');
+                averageBtn.classList.remove('btn-secondary');
+                averageBtn.classList.add('btn-primary');
+                typeDisplay.textContent = '平均排名';
+            }
+        }
+
+        
+        function calculateComprehensiveRanking() {
+            
+            const playerScores = {};
+            const playerRegions = {};
+            const playerWcaIds = {};
+            const playerProjectCount = {};
+            
+            
+            const lastRanks = {};
+            
+            
+            selectedProjects.forEach(projectId => {
+                const projectData = mockData[projectId];
+                if (!projectData) return;
+                
+                const resultData = projectData[rankingType];
+                if (!resultData || resultData.length === 0) return;
+                
+                
+                const sortedData = [...resultData].sort((a, b) => {
+                    const timeA = parseTime(a.result);
+                    const timeB = parseTime(b.result);
+                    return timeA - timeB;
+                });
+                
+                
+                lastRanks[projectId] = sortedData.length + 1;
+                
+                
+                let currentRank = 1;
+                let lastResult = null;
+                let sameRankCount = 0;
+                
+                const rankedData = sortedData.map((item, index) => {
+                    const currentResult = item.result;
+                    
+                    if (index === 0) {
+                        
+                        lastResult = currentResult;
+                        return {
+                            ...item,
+                            rank: currentRank
+                        };
+                    }
+                    
+                    
+                    if (currentResult === lastResult) {
+                        sameRankCount++;
+                        return {
+                            ...item,
+                            rank: currentRank
+                        };
+                    } else {
+                        
+                        currentRank += 1 + sameRankCount;
+                        sameRankCount = 0;
+                        lastResult = currentResult;
+                        return {
+                            ...item,
+                            rank: currentRank
+                        };
+                    }
+                });
+                
+                
+                rankedData.forEach(item => {
+                    const playerName = item.name;
+                    
+                    if (!playerScores[playerName]) {
+                        playerScores[playerName] = 0;
+                        playerRegions[playerName] = item.region;
+                        playerWcaIds[playerName] = item.wcaid;
+                        playerProjectCount[playerName] = 0;
+                    }
+                    
+                    
+                    playerScores[playerName] += item.rank;
+                    playerProjectCount[playerName]++;
+                });
+            });
+            
+            
+            Object.keys(playerScores).forEach(playerName => {
+                selectedProjects.forEach(projectId => {
+                    
+                    const projectData = mockData[projectId];
+                    if (!projectData) return;
+                    
+                    const resultData = projectData[rankingType];
+                    if (!resultData) return;
+                    
+                    const hasResult = resultData.some(item => item.name === playerName);
+                    
+                    if (!hasResult && lastRanks[projectId]) {
+                        playerScores[playerName] += lastRanks[projectId];
+                    }
+                });
+            });
+            
+            
+            const rankingArray = Object.keys(playerScores).map(playerName => ({
+                name: playerName,
+                region: playerRegions[playerName],
+                wcaid: playerWcaIds[playerName],
+                totalScore: playerScores[playerName],
+                projectCount: playerProjectCount[playerName]
+            }));
+            
+            
+            rankingArray.sort((a, b) => a.totalScore - b.totalScore);
+            
+            
+            let currentRank = 1;
+            let lastScore = null;
+            let sameRankCount = 0;
+            
+            const finalRankingArray = rankingArray.map((player, index) => {
+                const currentScore = player.totalScore;
+                
+                if (index === 0) {
+                    
+                    lastScore = currentScore;
+                    return {
+                        ...player,
+                        finalRank: currentRank
+                    };
+                }
+                
+                
+                if (currentScore === lastScore) {
+                    sameRankCount++;
+                    return {
+                        ...player,
+                        finalRank: currentRank
+                    };
+                } else {
+                    
+                    currentRank += 1 + sameRankCount;
+                    sameRankCount = 0;
+                    lastScore = currentScore;
+                    return {
+                        ...player,
+                        finalRank: currentRank
+                    };
+                }
+            });
+            
+            
+            const tbody = document.getElementById('ranking-table-body');
+            tbody.innerHTML = '';
+            
+            finalRankingArray.forEach(player => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="rank-cell">${player.finalRank}</td>
+                    <td>${player.name}</td>
+                    <td>${player.region}</td>
+                    <td>${player.totalScore}</td>
+                    <td>${player.wcaid}</td>
+                    <td>${player.projectCount}/${selectedProjects.size}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+    </script>
+</body>
+</html>
